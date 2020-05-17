@@ -4,7 +4,7 @@ import pandas as pd
 
 def read_stock_list(sh_sz, range_start, range_end):
     stock_list = []
-    stockxls = '../data/stocks.xlsx'
+    stockxls = '../basicdata/stocks.xlsx'
     with open(stockxls, 'rb') as f:
         book = open_workbook(stockxls)
         # print(open_workbook(file_contents=mmap(f.fileno(),0,access=ACCESS_READ)))
@@ -19,7 +19,7 @@ def read_stock_list(sh_sz, range_start, range_end):
 
 def read_industry_stock_list(range_start, range_end):
     stock_list = []
-    stockxls = '../data/industry.xlsx'
+    stockxls = '../basicdata/industry.csv'
     with open(stockxls, 'rb') as f:
         book = open_workbook(stockxls)
         # print(open_workbook(file_contents=mmap(f.fileno(),0,access=ACCESS_READ)))
@@ -30,13 +30,13 @@ def read_industry_stock_list(range_start, range_end):
 
 
 def read_sw_industry_stock_df(industry):
-    dfo = pd.read_csv('../data/SwClass.csv')
+    dfo = pd.read_csv('../basicdata/SwClass.csv')
     df = dfo[dfo['industry'] == industry]
     df=df[df['is_end'] == 'N']
     return df
 
 
 def read_sw_industry_stock_df_by_code(stock_code):
-    dfo = pd.read_csv('../data/SwClass.csv')
+    dfo = pd.read_csv('../basicdata/SwClass.csv')
     df = dfo[dfo['stock_code'] == stock_code]
     return df

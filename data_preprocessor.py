@@ -16,7 +16,7 @@ def merge_industry_is_cfs_bs_match_enddate_bsdate(name):
     df_is_all = pd.read_excel('../data/bs_'+name+'.xlsx')
     df_cfs_all.fillna(0, inplace=True)
     df_is_all.fillna(0, inplace=True)
-    df_merged = pd.merge(df_cfs_all, df_is_all, left_on=['stock_code','enddate'], right_on = ['stock_code','reportdate'],copy=True, indicator='exists',suffixes=('_is_cfs','_bs'))
+    df_merged = pd.merge(df_cfs_all, df_is_all, left_on=['stock_code','enddate'], right_on = ['stock_code','enddate'],copy=True, indicator='exists',suffixes=('_is_cfs','_bs'))
     # df_merged.fillna(0, inplace=True)
     df_merged.to_excel('../data/is_cfs_bs_'+name+'.xlsx')
     return df_merged

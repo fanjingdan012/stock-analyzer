@@ -28,8 +28,7 @@ def getIncomeStatements(shOrSz,rangeStart,rangeEnd):
     return incomeStatements
 
 
-def get_file_name(name):
-    return '../data/is/is_'+name+'.xlsx'
+
 
 def get_is_for_1_stock(str_stock_code):
     # stock_list=readStockList.read_industry_stock_list_by_code(stock_code)
@@ -45,4 +44,7 @@ def get_is_for_1_stock(str_stock_code):
         df.to_excel(get_file_name(str_stock_code))
 
 
-
+def get_file_name(name):
+    # xueqiu_base.create_dir_if_not_there('../','data')
+    # xueqiu_base.create_dir_if_not_there('../data', 'is')
+    return '../data/is/is_'+name+'.xlsx'

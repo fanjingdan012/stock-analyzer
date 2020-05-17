@@ -29,6 +29,8 @@ def get_cfs_for_1_stock(str_stock_code):
 
 
 def get_file_name(name):
+    # xueqiu_base.create_dir_if_not_there('../','data')
+    # xueqiu_base.create_dir_if_not_there('../data', 'cfs')
     return '../data/cfs/cfs_'+name+'.xlsx'
 
 
