@@ -8,13 +8,14 @@ if __name__=="__main__":
 
     # str_industry = '商业贸易'
     # str_industry = '休闲服务'
-    str_industry = '有色金属'
+    # str_industry = '有色金属'
+    str_industry = '纺织服装'
 
     # step 0 download
     # df=stock_reader.read_sw_industry_stock_df(str_industry)
     # for stock_code in df['stock_code']:
     #     xueqiu_crawler.get_reports_for_1_stock(stock_code)
-
+    # xueqiu_crawler.get_reports_for_1_stock('SH603001')
 
 
     # # step 1 append
@@ -25,8 +26,9 @@ if __name__=="__main__":
     # df_is_cfs = data_preprocessor.merge_industry_is_cfs(str_industry)
 
     # # step 3 merge is_cfs bs
-    df_is_cfs = data_preprocessor.merge_industry_is_cfs_bs_match_enddate_bsdate(str_industry)
-    df_is_cfs = data_preprocessor.merge_industry_is_cfs_bs_match_begindate_bsdate(str_industry)
+    # data_preprocessor.adapt_bs(str_industry)
+    # df_is_cfs_bs = data_preprocessor.merge_industry_is_cfs_bs_match_enddate_bsdate(str_industry)
+    # df_is_cfs_bs_begin = data_preprocessor.merge_industry_is_cfs_bs_match_begindate_bsdate(str_industry)
 
 
     # # step 3.1 calculate some rates
