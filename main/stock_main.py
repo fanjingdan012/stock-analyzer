@@ -2,19 +2,21 @@ import xueqiu.xueqiu_crawler as xueqiu_crawler
 import stock_reader
 import industry
 import data_preprocessor
-import chart.is_cfs_bs_chart as is_cfs_bs_chart
+# import chart.is_cfs_bs_chart as is_cfs_bs_chart
 if __name__=="__main__":
 
 
     # str_industry = '商业贸易'
     # str_industry = '休闲服务'
     # str_industry = '有色金属'
-    str_industry = '纺织服装'
+    # str_industry = '纺织服装'
+    # str_industry = '钢铁'
+    str_industry = '计算机'
 
     # step 0 download
-    # df=stock_reader.read_sw_industry_stock_df(str_industry)
-    # for stock_code in df['stock_code']:
-    #     xueqiu_crawler.get_reports_for_1_stock(stock_code)
+    df=stock_reader.read_sw_industry_stock_df(str_industry)
+    for stock_code in df['stock_code']:
+        xueqiu_crawler.get_reports_for_1_stock(stock_code)
     # xueqiu_crawler.get_reports_for_1_stock('SH603001')
 
 
