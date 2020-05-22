@@ -43,6 +43,18 @@ def get_is_for_1_stock(str_stock_code):
         df = pd.read_json(str_list, orient='records')
         df.to_excel(get_file_name(str_stock_code))
 
+def get_is_for_1_stock_new(str_stock_code):
+    url = 'https://stock.xueqiu.com/v5/stock/finance/cn/income.json?type=all&is_detail=true&count=10000&symbol='+str_stock_code
+    print(url)
+    str_response=xueqiu_base.get_response(url)
+    # write_f10_xls(1, data, '../data/bs_'+stock_id)
+    json_data = json.loads(str_response)['data']
+
+    if (('list' in json_data) & (json_data['list'] is not None)):
+        json_list = json_data['list']
+        str_list=json.dumps(json_list)
+        df = pd.read_json(str_list, orient='records')
+        df.to_excel(get_file_name(str_stock_code))
 
 def get_file_name(name):
     # xueqiu_base.create_dir_if_not_there('../','data')

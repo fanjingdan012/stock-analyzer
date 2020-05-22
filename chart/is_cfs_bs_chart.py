@@ -22,55 +22,55 @@ def draw_industry_is_cfs_bs_subplot(ax,df,x):
 
     stock_code = df['stock_code']
     stock_name = df['stock_name_cfs']
-    bizcashinfl = df['bizcashinfl']
-    bizcashoutf = df['bizcashoutf']
-    mananetr = df['mananetr']
+    bizcashinfl = df['sub_total_of_ci_from_oa']
+    bizcashoutf = df['sub_total_of_cos_from_oa']
+    mananetr = df['ncf_from_oa']
 
-    invcashinfl = df['invcashinfl']
-    invcashoutf = df['invcashoutf']
-    invnetcashflow = df['invnetcashflow']
+    invcashinfl = df['sub_total_of_ci_from_ia']
+    invcashoutf = df['sub_total_of_cos_from_ia']
+    invnetcashflow = df['ncf_from_ia']
 
-    fincashinfl = df['fincashinfl']
-    fincashoutf = df['fincashoutf']
-    finnetcflow = df['finnetcflow']
+    fincashinfl = df['sub_total_of_ci_from_fa']
+    fincashoutf = df['sub_total_of_cos_from_fa']
+    finnetcflow = df['ncf_from_fa']
 
 
 
 
     # is var
-    t = df['enddate']
-    bti = df['biztotinco']
-    bi = df['bizinco']
-    inteinco = df['inteinco']
-    pouninco = df['pouninco']
-    otherbizinco = df['otherbizinco']
-    btc = df['biztotcost']
-    bc = df['bizcost']
-    pp = df['perprofit']
-    biztax = df['biztax']
-    salesexpe = df['salesexpe']
-    manaexpe = df['manaexpe']
-    finexpe = df['finexpe_is']
-    asseimpaloss = df['asseimpaloss']
-    inveinco = df['inveinco']
-    nonoreve = df['nonoreve']
-    nonoexpe = df['nonoexpe']
-    noncassetsdisl = df['noncassetsdisl']
-    incotaxexpe = df['incotaxexpe']
-    netprofit = df['netprofit_is']
+    t = df['report_date']
+    # bti = df['biztotinco']
+    bi = df['total_revenue']
+    inteinco = df['invest_income']
+    pouninco = df['exchg_gain']
+    otherbizinco = df['other_income']
+    # btc = df['biztotcost']
+    bc = df['operating_cost']
+    pp = df['profit_total_amt']
+    biztax = df['operating_taxes_and_surcharge']
+    salesexpe = df['sales_fee']
+    manaexpe = df['manage_fee']
+    finexpe = df['financing_expenses']
+    asseimpaloss = df['asset_impairment_loss']
+    inveinco = df['invest_income']
+    nonoreve = df['non_operating_income']
+    nonoexpe = df['non_operating_payout']
+    noncassetsdisl = df['noncurrent_assets_dispose_gain']
+    incotaxexpe = df['income_tax_expenses']
+    netprofit = df['net_profit']
 
 
     # bs vars
-    t = df['reportdate']
-    a = df['totasset']
-    ca = df['totcurrasset']
-    la = df['totalnoncassets']
+    t = df['report_date_str_bs']
+    a = df['total_assets']
+    ca = df['total_current_assets']
+    la = df['total_noncurrent_assets']
 
-    b = df['totliabsharequi']
-    cl = df['totalcurrliab']
-    ll = df['totalnoncliab']
-    l = df['totliab']
-    e = df['righaggr']
+    b = df['total_liab_and_holders_equity']
+    cl = df['total_current_liab']
+    ll = df['total_noncurrent_liab']
+    l = df['total_liab']
+    e = df['total_holders_equity']
 
     if x=='stock_code':
         ind = np.arange(len(stock_name))  # the x locations for the groups
@@ -110,13 +110,13 @@ def draw_industry_is_cfs_bs_subplot(ax,df,x):
         ax.set_xticklabels(stock_code+"_"+stock_name, size='xx-large', rotation=90, fontproperties=font)
     else:
         ax.set_xticklabels(t, size='xx-large', rotation=90, fontproperties=font)
-    ax.legend(loc='upper left')
+    # ax.legend(loc='upper left')
 
 
 
 def read_df_by_industry(str_industry):
-    dateparse = lambda dates: pd.datetime.strptime(dates, '%Y%m%d')
-    df_is_cfs_bs = pd.read_excel('../data/is_cfs_bs_' + str_industry + '.xlsx', parse_dates=['enddate'],
+    dateparse = lambda dates: pd.datetime.strptime(dates, '%Y-%m-%d')
+    df_is_cfs_bs = pd.read_excel('../data/is_cfs_bs_' + str_industry + '.xlsx', parse_dates=['report_date_str_bs'],
                                  date_parser=dateparse)
     # df_is_cfs = pd.read_excel('../data/is_cfs_'+str_industry+'.xlsx',converters={'enddate':str})
     # print(df_is_cfs.keys())
@@ -124,16 +124,16 @@ def read_df_by_industry(str_industry):
 
 
 def filter_df_by_enddate(df_is_cfs_bs,str_enddate):
-    df_is_cfs_bs = df_is_cfs_bs[df_is_cfs_bs['enddate'] == str_enddate]
-    df_is_cfs_bs = df_is_cfs_bs.sort_values(by=['bizinco'],ascending=False)
+    df_is_cfs_bs = df_is_cfs_bs[df_is_cfs_bs['report_date_str_bs'] == str_enddate]
+    df_is_cfs_bs = df_is_cfs_bs.sort_values(by=['total_revenue'],ascending=False)
     return df_is_cfs_bs
 
 
 def filter_df_by_stock_code(df_is_cfs_bs,str_stock_code):
     df_is_cfs_bs = df_is_cfs_bs[df_is_cfs_bs['stock_code'] == str_stock_code]
-    df_is_cfs_bs['is_year_report'] = df_is_cfs_bs['enddate'].map(lambda d: d.strftime("%Y%m%d").endswith('1231'))
+    df_is_cfs_bs['is_year_report'] = df_is_cfs_bs['report_date_str_bs'].map(lambda d: d.strftime("%Y-%m-%d").endswith('12-31'))
     df_is_cfs_bs = df_is_cfs_bs[df_is_cfs_bs['is_year_report'] == True]
-    df_is_cfs_bs = df_is_cfs_bs.sort_values(by=['reportdate'], ascending=True)
+    df_is_cfs_bs = df_is_cfs_bs.sort_values(by=['report_date_str_bs'], ascending=True)
     return df_is_cfs_bs
 
 
@@ -144,7 +144,7 @@ def draw_industry_is_cfs_bs_chart_for_stock(str_industry,str_stock_code):
     df_is_cfs_bs = read_df_by_industry(str_industry)
     df_is_cfs_bs = filter_df_by_stock_code(df_is_cfs_bs, str_stock_code)
     # plt.title('stock:' + df_is_cfs_bs['stock_name'][0])
-    draw_industry_is_cfs_bs_subplot(ax, df_is_cfs_bs, x='enddate')
+    draw_industry_is_cfs_bs_subplot(ax, df_is_cfs_bs, x='report_date_str_bs')
     plt.savefig('../data/charts/is_cfs_bs_' + str_stock_code + '.jpg')
     plt.show()
 

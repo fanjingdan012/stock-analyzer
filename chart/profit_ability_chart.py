@@ -15,10 +15,10 @@ import data_preprocessor
 
 def draw_profitablity_subplot_for_year(str_reportdate):
     plt.style.use('ggplot')
-    dfo = pd.read_excel('../data/is_cfs_bs_begin_房地产.xlsx', converters={'reportdate': str})
+    dfo = pd.read_excel('../data/is_cfs_bs_begin_纺织服装.xlsx', converters={'report_date_str': str})
     # df = dfo[dfo['stock_code']=='SH600983']
     dfo = dfo[dfo['exists'] == 'both']
-    df = dfo[dfo['reportdate'] == str_reportdate]
+    df = dfo[dfo['report_date_str'] == str_reportdate]
     # df.fillna(0,inplace=True)
     fig, ax = plt.subplots(figsize=(120, 8))
     # fig = plt.figure()
@@ -68,7 +68,7 @@ def draw_profitablity_subplot_for_year(str_reportdate):
 
 def draw_profitablity_subplot_for_stock(str_stock_code):
     plt.style.use('ggplot')
-    dfo = pd.read_excel('../data/is_cfs_bs_begin_房地产.xlsx', converters={'reportdate': str})
+    dfo = pd.read_excel('../data/is_cfs_bs_begin_纺织服装.xlsx', converters={'report_date_str': str})
     # df = dfo[dfo['stock_code']=='SH600983']
     dfo = dfo[dfo['exists'] == 'both']
     df = dfo[dfo['stock_code'] == str_stock_code]
@@ -77,7 +77,7 @@ def draw_profitablity_subplot_for_stock(str_stock_code):
     # fig = plt.figure()
     ax = fig.add_subplot(111)
     width = 0.1
-    t = df['reportdate']
+    t = df['report_date_str']
     stock_code = df['stock_code']
     stock_name = df['stock_name']
     # bti = df['biztotinco']
@@ -120,5 +120,5 @@ def draw_profitablity_subplot_for_stock(str_stock_code):
     plt.show()
 if __name__ == "__main__":
     # draw_profitablity_subplot_for_year('20161231')
-    draw_profitablity_subplot_for_stock('SZ000002')
+    draw_profitablity_subplot_for_stock('SZ000726')
 

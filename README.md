@@ -1,8 +1,19 @@
 # 雪球爬虫
-# 爬取
-run xueqiu/xueqiu_crawler.py  
-如果雪球拒绝，请更改xueqiu.py的header(打开chrome访问雪球 F12)
+# How to run
+- run main/f10_main.py  
+  - 获取行业所有报表，横向纵向比较
+- run main/price_main.py
+  - 获取今天的价格，成交量
+- 如果雪球拒绝，请更改xueqiu.py的header(打开chrome访问雪球 F12)
 ![data](docs/pics/data.PNG)
+## api
+https://xueqiu.com/stock/forchart/stocklist.json?symbol=SH600519&period=1d&one_min=1
+https://xueqiu.com/stock/forchartk/stocklist.json?symbol=SH600519&period=1week&type=normal&begin=1385706304210&end=1511850304210
+https://xueqiu.com/stock/pankou.json?symbol=SH600519
+https://xueqiu.com/stock/forchartk/stocklist.json?symbol=SH600519&period=1d&type=normal&begin=1385706304210&end=1511850304210
+https://xueqiu.com/stock/forchartk/stocklist.json?symbol=SH600519&period=1week&type=normal&begin=1385706304210&end=1511850304210
+https://xueqiu.com/stock/industry/stockList.json?code=SZ000333&type=1&size=100
+
 # 可视化
 ## 资产负债表
 run chart/bs_chart.py
@@ -15,7 +26,5 @@ run ana/is_cfs_chart.py
 - 看看销售收入是不是稳步增长
 - 看看毛利率怎么样
 # 未完待续。。。
-## 横向比较
 ## 银行，金融
-## bs-cfs， bs-es 
 ## ROE ROA SR/A NI/SR

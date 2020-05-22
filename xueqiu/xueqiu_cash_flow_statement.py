@@ -28,6 +28,22 @@ def get_cfs_for_1_stock(str_stock_code):
         df.to_excel(get_file_name(str_stock_code))
 
 
+def get_cfs_for_1_stock_new(str_stock_code):
+    # stock_list=readStockList.read_industry_stock_list_by_code(stock_code)
+    # data = get_data(stock_list, '/stock/f10/balsheet.json?size=10000&page=1', '../data/bs_'+stock_id)
+    url = 'https://stock.xueqiu.com/v5/stock/finance/cn/cash_flow.json?type=all&is_detail=true&count=10000&symbol='+str_stock_code
+    print(url)
+    str_response=xueqiu_base.get_response(url)
+    # write_f10_xls(1, data, '../data/bs_'+stock_id)
+    json_data = json.loads(str_response)['data']
+
+    if (('list' in json_data) & (json_data['list'] is not None)):
+        json_list = json_data['list']
+        str_list=json.dumps(json_list)
+        df = pd.read_json(str_list, orient='records')
+        df.to_excel(get_file_name(str_stock_code))
+
+
 def get_file_name(name):
     # xueqiu_base.create_dir_if_not_there('../','data')
     # xueqiu_base.create_dir_if_not_there('../data', 'cfs')

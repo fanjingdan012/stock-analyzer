@@ -13,3 +13,4 @@ if __name__ == "__main__":
     range_end = 4
     data = get_data(sh_sz, range_start, range_end, '/stock/forchartk/stocklist.json?period=1d&type=normal', '../data/price/price')
     write_price_xls( data, '../data/price/')
+# https://stock.xueqiu.com/v5/stock/quote.json?symbol=SH688088&extend=detail
