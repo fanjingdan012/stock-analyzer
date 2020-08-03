@@ -14,6 +14,17 @@ def draw_bs_bars(ax,position,width,ca,la,cl,ll,e):
     long_term_liability_bar = ax.bar(position + width, ll, width, bottom=e, color='b',label='long term liability')
     current_liability_bar = ax.bar(position + width, cl, width, bottom=e + ll,label='current liability')
 
+def draw_detailed_bs_bars(ax,position,width,ca,ar,inventory,la,goodwill,cl,ll,e,shares):
+    current_asset_bar = ax.bar(position, ca, width, bottom=la, label='current asset')
+    ar_bar = ax.bar(position, ar, width, bottom=la+inventory, label='account receivable')
+    inventory_bar = ax.bar(position, inventory, width, bottom=la , label='inventory')
+    long_term_asset_bar = ax.bar(position, la, width, label='long term asset')
+    goodwill_bar = ax.bar(position, goodwill, width, label='good will')
+    equity_bar = ax.bar(position + width, e, width, color='y',label='equity')
+    shares_bar = ax.bar(position + width, shares, width, color='darkgoldenrod',label='shares')
+    long_term_liability_bar = ax.bar(position + width, ll, width, bottom=e, color='b',label='long term liability')
+    current_liability_bar = ax.bar(position + width, cl, width, bottom=e + ll,label='current liability')
+
 def draw_detailed_current_asset_bars(ax,position,width,curfds,tradfinasset,notesrece,accorece,prep,
                                      premrece,interece,dividrece,otherrece,expotaxrebarece,subsrece,
                                      margrece,intelrece,inve,prepexpe,unseg,expinoncurrasset,othercurrasse,

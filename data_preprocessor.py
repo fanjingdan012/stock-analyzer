@@ -1,6 +1,9 @@
 import pandas as pd
 import datetime
 import time
+from sqlalchemy import create_engine
+import numpy as np
+
 def adapt(name,report_type):
     adapted = pd.read_excel('../data/'+report_type+'_'+name+'.xlsx')
     report_dates=[]
@@ -14,12 +17,15 @@ def adapt(name,report_type):
     adapted2 = adapted.applymap(lambda x: x.split(',', 1)[0][1:] if (isinstance(x, str) and x.startswith('[')) else x)
     adapted3 = adapted2.applymap(lambda x: 0 if (x == 'None') else x)
     adapted3.to_excel('../data/'+report_type+'1_' + name + '.xlsx')
-    return adapted3
+    engine = create_engine('mysql+pymysql://root:123456@localhost:3306/stock')
+    adapted4 = adapted3.drop(['Unnamed: 0', 'Unnamed: 0.1'], axis=1)
+    adapted4.to_sql(report_type+'_fin', engine, if_exists='append', index=False)
+    return adapted4
 
 # name is stock_code or industry(chinese)
 def merge_industry_is_cfs(name):
-    df_cfs_all = pd.read_excel('../data/cfs_'+name+'.xlsx')
-    df_is_all = pd.read_excel('../data/is_'+name+'.xlsx')
+    df_cfs_all = pd.read_excel('../data/cfs1_'+name+'.xlsx')
+    df_is_all = pd.read_excel('../data/is1_'+name+'.xlsx')
     df_merged = pd.merge(df_cfs_all, df_is_all, left_on=['stock_code','report_date'], right_on = ['stock_code','report_date'],copy=True, indicator='both',suffixes=('_cfs','_is'))
     # df_merged.fillna(0, inplace=True)
     df_merged.to_excel('../data/is_cfs_'+name+'.xlsx')
@@ -27,7 +33,7 @@ def merge_industry_is_cfs(name):
 
 
 def merge_industry_is_cfs_bs_match_enddate_bsdate(name):
-    df_is_cfs_all = pd.read_excel('../data/is_cfs1_'+name+'.xlsx')
+    df_is_cfs_all = pd.read_excel('../data/is_cfs_'+name+'.xlsx')
     df_bs_all = pd.read_excel('../data/bs1_'+name+'.xlsx')
     df_is_cfs_all.fillna(0, inplace=True)
     df_bs_all.fillna(0, inplace=True)
@@ -38,9 +44,10 @@ def merge_industry_is_cfs_bs_match_enddate_bsdate(name):
 
 
 def merge_industry_is_cfs_bs_match_begindate_bsdate(name):
-    df_is_cfs_all = pd.read_excel('../data/is_cfs1_'+name+'.xlsx', converters={'report_date_str': str,'begindate_is':str})
-    df_is_cfs_all['is_year_report'] = df_is_cfs_all['report_date_str'].map(lambda d: d.endswith('12-31'))
-    df_is_cfs_all['begindate_minus1d'] = df_is_cfs_all['begindate_is'].map(lambda d: (pd.datetime.strptime(d, '%Y-%m-%d')-datetime.timedelta(days=1)).strftime("%Y-%m-%d"))
+    df_is_cfs_all = pd.read_excel('../data/is_cfs_'+name+'.xlsx', converters={'report_date_str': str})
+    df_is_cfs_all['is_year_report'] = df_is_cfs_all['report_date_str_is'].map(lambda d: d.endswith('12-31'))
+    df_is_cfs_all['begin_date'] = df_is_cfs_all['report_date_str_is'].map(lambda d: d[:5]+'01-01')
+    df_is_cfs_all['begin_date_minus1d'] = df_is_cfs_all['begin_date'].map(lambda d: (pd.datetime.strptime(d, '%Y-%m-%d')-datetime.timedelta(days=1)).strftime("%Y-%m-%d"))
 
     df_cfs_all_yearly = df_is_cfs_all[df_is_cfs_all['is_year_report'] == True]
     df_cfs_all_yearly.fillna(0, inplace=True)
@@ -50,7 +57,7 @@ def merge_industry_is_cfs_bs_match_begindate_bsdate(name):
     # df_is_cfs_bs = pd.read_excel('../data/is_cfs_bs_' + str_industry + '.xlsx', parse_dates=['enddate'],
     #                              date_parser=dateparse)
     df_bs_all = pd.read_excel('../data/bs1_' + name + '.xlsx', converters={'report_date_str': str})
-    df_bs_all['is_year_report'] = df_bs_all['report_date_str'].map(lambda d: d.endswith('1231'))
+    df_bs_all['is_year_report'] = df_bs_all['report_date_str'].map(lambda d: d.endswith('12-31'))
     df_bs_all_yearly = df_bs_all[df_bs_all['is_year_report'] == True]
     df_bs_all_yearly.fillna(0, inplace=True)
     df_bs_all_yearly.to_excel('../data/bs_yearly_' + name + '.xlsx')
@@ -58,16 +65,16 @@ def merge_industry_is_cfs_bs_match_begindate_bsdate(name):
     now = datetime.datetime.now()
     date = now + datetime.timedelta(days=1)
 
-    df_merged = pd.merge(df_cfs_all_yearly, df_bs_all_yearly, left_on=['stock_code','begindate_minus1d'], right_on = ['stock_code','report_date_str'],how='outer',copy=True, indicator='exists',suffixes=('_is_cfs','_bs'))
+    df_merged = pd.merge(df_cfs_all_yearly, df_bs_all_yearly, left_on=['stock_code','begin_date_minus1d'], right_on = ['stock_code','report_date_str'],how='outer',copy=True, indicator='exists',suffixes=('_is_cfs','_bs'))
     # df_merged.fillna(0, inplace=True)
     df_merged.to_excel('../data/is_cfs_bs_begin_'+name+'.xlsx')
     return df_merged
 
 def calc_profit_ability(name):
     df_is_cfs_bs_begin = pd.read_excel('../data/is_cfs_bs_begin_' + name + '.xlsx', converters={'report_date_str': str})
-    df_is_cfs_bs_begin['roe'] = df_is_cfs_bs_begin['netprofit_is']/df_is_cfs_bs_begin['total_holders_equity']
-    df_is_cfs_bs_begin['roa'] = df_is_cfs_bs_begin['netprofit_is']/df_is_cfs_bs_begin['total_assets']
-    df_is_cfs_bs_begin['ni_div_sr'] = df_is_cfs_bs_begin['netprofit_is']/df_is_cfs_bs_begin['total_revenue']
+    df_is_cfs_bs_begin['roe'] = df_is_cfs_bs_begin['net_profit']/df_is_cfs_bs_begin['total_holders_equity']
+    df_is_cfs_bs_begin['roa'] = df_is_cfs_bs_begin['net_profit']/df_is_cfs_bs_begin['total_assets']
+    df_is_cfs_bs_begin['ni_div_sr'] = df_is_cfs_bs_begin['net_profit']/df_is_cfs_bs_begin['total_revenue']
     df_is_cfs_bs_begin['sr_div_a'] = df_is_cfs_bs_begin['total_revenue']/df_is_cfs_bs_begin['total_assets']
     df_is_cfs_bs_begin.to_excel('../data/is_cfs_bs_begin_'+name+'.xlsx')
 

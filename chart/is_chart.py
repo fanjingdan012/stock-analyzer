@@ -6,33 +6,31 @@ from mpl_toolkits.mplot3d import axes3d
 # def config_is_subplot1(ax):
 
 
-def draw_is_income_bar(ax,position,width,bi,otherbizinco,inveinco,pouninco,inteinco):
-    bizincob = ax.bar(position, bi, width, bottom=inveinco + pouninco + inteinco + otherbizinco, color='pink')
-    otherbizincob = ax.bar(position, otherbizinco, width, bottom=inveinco + pouninco + inteinco,
+def draw_is_income_bar(ax,position,width,sr,inveinco,finance_cost_interest_income,asset_disposal_income,other_income):
+    bizincob = ax.bar(position, sr, width, bottom=inveinco + finance_cost_interest_income + asset_disposal_income+other_income, color='pink')
+    otherbizincob = ax.bar(position, other_income, width, bottom=inveinco + finance_cost_interest_income + asset_disposal_income,
                            color='lightcoral')
-    inteincob = ax.bar(position, inteinco, width, bottom=inveinco + pouninco, color='yellow')
-    pounincob = ax.bar(position, pouninco, width, bottom=inveinco, color='khaki')
+    asset_disposal_income = ax.bar(position, asset_disposal_income, width, bottom=inveinco + finance_cost_interest_income, color='yellow')
+    finance_cost_interest_income = ax.bar(position, finance_cost_interest_income, width, bottom=inveinco, color='khaki')
     inveincob = ax.bar(position, inveinco, width, color='gold')
 
 
-def draw_is_cost_bar(ax,position,width,bc,biztax,salesexpe,manaexpe,finexpe,asseimpaloss,pp):
-    bcb = ax.bar(position, bc, width, bottom=pp + asseimpaloss + finexpe + manaexpe + salesexpe + biztax,color='skyblue',label='biz cost')
-    biztaxb = ax.bar(position, biztax, width, bottom=pp + asseimpaloss + finexpe + manaexpe + salesexpe,color='navy',label='biz tax')
-    salesexpeb = ax.bar(position, salesexpe, width, bottom=pp + asseimpaloss + finexpe + manaexpe,color='dodgerblue',label='sales expense')
-    manaexpeb = ax.bar(position, manaexpe, width, bottom=pp + asseimpaloss + finexpe,color='lightskyblue',label='manage expense')
-    finexpeb = ax.bar(position, finexpe, width, bottom=pp + asseimpaloss,color='palegreen',label='finance expense')
-    asseimpalossb = ax.bar(position, asseimpaloss, width, bottom=pp,color='cornflowerblue',label='asset impa loss')
-    ppb = ax.bar(position, pp, width*2,color='purple',label='p profit')
+def draw_is_cost_bar(ax, position, width , bc, biztax, salesexpe, manaexpe, finexpe, rad_cost,asseimpaloss, credit_impairment_loss,op):
+    bcb = ax.bar(position, bc, width, bottom=op +credit_impairment_loss+ asseimpaloss + finexpe + manaexpe + salesexpe + rad_cost+biztax,color='skyblue',label='biz cost')
+    biztaxb = ax.bar(position, biztax, width, bottom=op+credit_impairment_loss + asseimpaloss + finexpe + manaexpe + salesexpe+rad_cost,color='navy',label='biz tax')
+    rad_costb=ax.bar(position, rad_cost, width, bottom=op+credit_impairment_loss + asseimpaloss + finexpe + manaexpe + salesexpe,color='cyan',label='r&d cost')
+    salesexpeb = ax.bar(position, salesexpe, width, bottom=op +credit_impairment_loss+ asseimpaloss + finexpe + manaexpe,color='dodgerblue',label='sales expense')
+    manaexpeb = ax.bar(position, manaexpe, width, bottom=op +credit_impairment_loss+ asseimpaloss + finexpe,color='lightskyblue',label='manage expense')
+    finexpeb = ax.bar(position, finexpe, width, bottom=op +credit_impairment_loss+ asseimpaloss,color='palegreen',label='finance expense')
+    asseimpalossb = ax.bar(position, asseimpaloss, width, bottom=op+credit_impairment_loss,color='cornflowerblue',label='asset impa loss')
+    credit_impairment_lossb = ax.bar(position, credit_impairment_loss, width, bottom=op,color='cornflowerblue',label='credit impa loss')
+    ppb = ax.bar(position, op, width*2,color='purple',label='op profit')
 
 
-def draw_is_net_profit_bar(ax,position,width,nonoreve,nonoexpe,noncassetsdisl,incotaxexpe,netprofit):
-    # nonoreveb = ax.bar(bar2_position, nonoreve, width * 6, bottom=inveinco + pouninco + inteinco + otherbizinco,
-    #                    color='black')
+def draw_is_net_profit_bar(ax,position,width,profit_total_amt,nonoreve,nonoexpe,incotaxexpe,netprofit):
+    # non operating gain/loss
+    nonopb=ax.bar(position, nonoreve-nonoexpe, width, bottom=profit_total_amt ,color='darkslateblue',label='non op')
     #
-    # nonoexpeb = ax.bar(bar5_position, nonoexpe, width, bottom=netprofit + incotaxexpe + noncassetsdisl,color='darkslateblue')
-    nonopb=ax.bar(position, nonoreve-nonoexpe, width, bottom=netprofit + incotaxexpe + noncassetsdisl,color='darkslateblue',label='nonop')
-
-    noncassetsdislb = ax.bar(position, noncassetsdisl, width, bottom=netprofit + incotaxexpe,color='darkblue',label='nonc asset disl')
     incotaxexpeb = ax.bar(position, incotaxexpe, width, bottom=netprofit,color='black',label='income tax')
     netprofitb = ax.bar(position, netprofit, width,color='m',label='net profit')
 
