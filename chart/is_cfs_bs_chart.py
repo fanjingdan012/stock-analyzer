@@ -16,12 +16,12 @@ import data_preprocessor
 
 
 
-def draw_industry_is_cfs_bs_subplot(ax,df,x):
+def draw_industry_is_cfs_bs_subplot(ax,df,x,str_stock_code=''):
     width = 0.10
     # cfs var
-
-    stock_code = df['stock_code']
-    stock_name = df['stock_name_cfs']
+    if str_stock_code == '':
+        stock_code = df['stock_code']
+        stock_name = df['stock_name_cfs']
     bizcashinfl = df['sub_total_of_ci_from_oa']
     bizcashoutf = df['sub_total_of_cos_from_oa']
     mananetr = df['ncf_from_oa']
@@ -149,16 +149,24 @@ def filter_df_by_stock_code(df_is_cfs_bs,str_stock_code):
     return df_is_cfs_bs
 
 
-def draw_industry_is_cfs_bs_chart_for_stock(str_industry,str_stock_code):
+def draw_industry_is_cfs_bs_chart_for_stock(str_stock_code,str_industry=''):
     plt.style.use('ggplot')
     fig, ax = plt.subplots(figsize=(20, 8))
+    if str_industry != '':
+        df_is_cfs_bs = read_df_by_industry(str_industry)
+        df_is_cfs_bs = filter_df_by_stock_code(df_is_cfs_bs, str_stock_code)
+    else:
+        dateparse = lambda dates: pd.datetime.strptime(dates, '%Y-%m-%d')
+        df_is_cfs_bs = pd.read_excel('../data/is_cfs_bs_' + str_stock_code + '.xlsx', parse_dates=['report_date_str_is'],
+                                     date_parser=dateparse)
+        df_is_cfs_bs=df_is_cfs_bs.sort_values(by=['report_date'],ascending=True)
 
-    df_is_cfs_bs = read_df_by_industry(str_industry)
-    df_is_cfs_bs = filter_df_by_stock_code(df_is_cfs_bs, str_stock_code)
     df_is_cfs_bs['report_year'] = df_is_cfs_bs['report_date_str_is'].map(lambda d: d.strftime("%Y"))
     font = FontProperties(fname=r"C:\\windows\\fonts\\simsun.ttc", size='xx-large')
-    # plt.title('stock:' + df_is_cfs_bs['stock_name'].iloc[0],fontProperties = font)
-    draw_industry_is_cfs_bs_subplot(ax, df_is_cfs_bs, x='report_year')
+    if str_industry == '':
+        # plt.title('stock:' + df_is_cfs_bs['stock_name'].iloc[0],fontProperties = font)
+        plt.title('stock:' + str_stock_code, fontProperties=font)
+    draw_industry_is_cfs_bs_subplot(ax, df_is_cfs_bs, x='report_year', str_stock_code=str_stock_code)
     plt.savefig('../data/charts/is_cfs_bs_' + str_stock_code + '.jpg')
     plt.show()
 

@@ -4,8 +4,11 @@ import time
 from sqlalchemy import create_engine
 import numpy as np
 
-def adapt(name,report_type):
-    adapted = pd.read_excel('../data/'+report_type+'_'+name+'.xlsx')
+def adapt(name,report_type,isIndustry=True):
+    if isIndustry:
+        adapted = pd.read_excel('../data/' + report_type + '_' + name + '.xlsx')
+    else:
+        adapted = pd.read_excel('../data/'+report_type+'/'+report_type+'_'+name+'.xlsx')
     report_dates=[]
     df_items = []
     for i,v in adapted['report_date'].items():
@@ -18,32 +21,42 @@ def adapt(name,report_type):
     adapted3 = adapted2.applymap(lambda x: 0 if (x == 'None') else x)
     adapted3.to_excel('../data/'+report_type+'1_' + name + '.xlsx')
     engine = create_engine('mysql+pymysql://root:123456@localhost:3306/stock')
-    adapted4 = adapted3.drop(['Unnamed: 0', 'Unnamed: 0.1'], axis=1)
-    adapted4.to_sql(report_type+'_fin', engine, if_exists='append', index=False)
-    return adapted4
+    # adapted4 = adapted3.drop(['Unnamed: 0', 'Unnamed: 0.1'], axis=1)
+    # adapted4.to_sql(report_type+'_fin', engine, if_exists='append', index=False)
+    # return adapted4
 
 # name is stock_code or industry(chinese)
-def merge_industry_is_cfs(name):
+def merge_is_cfs(name,isIndustry=True):
     df_cfs_all = pd.read_excel('../data/cfs1_'+name+'.xlsx')
     df_is_all = pd.read_excel('../data/is1_'+name+'.xlsx')
-    df_merged = pd.merge(df_cfs_all, df_is_all, left_on=['stock_code','report_date'], right_on = ['stock_code','report_date'],copy=True, indicator='both',suffixes=('_cfs','_is'))
+    if isIndustry:
+        df_merged = pd.merge(df_cfs_all, df_is_all, left_on=['stock_code','report_date'], right_on = ['stock_code','report_date'],copy=True, indicator='both',suffixes=('_cfs','_is'))
+    else:
+        df_merged = pd.merge(df_cfs_all, df_is_all, left_on=['report_date'], right_on = ['report_date'],copy=True, indicator='both',suffixes=('_cfs','_is'))
+
     # df_merged.fillna(0, inplace=True)
     df_merged.to_excel('../data/is_cfs_'+name+'.xlsx')
     return df_merged
 
 
-def merge_industry_is_cfs_bs_match_enddate_bsdate(name):
+def merge_is_cfs_bs_match_enddate_bsdate(name,isIndustry=True):
     df_is_cfs_all = pd.read_excel('../data/is_cfs_'+name+'.xlsx')
     df_bs_all = pd.read_excel('../data/bs1_'+name+'.xlsx')
     df_is_cfs_all.fillna(0, inplace=True)
     df_bs_all.fillna(0, inplace=True)
-    df_merged = pd.merge(df_is_cfs_all, df_bs_all, left_on=['stock_code','report_date'], right_on = ['stock_code','report_date'],copy=True, indicator='exists',suffixes=('_is_cfs','_bs'))
+    if isIndustry:
+        df_merged = pd.merge(df_is_cfs_all, df_bs_all, left_on=['stock_code','report_date'], right_on = ['stock_code','report_date'],copy=True, indicator='exists',suffixes=('_is_cfs','_bs'))
+    else:
+        df_merged = pd.merge(df_is_cfs_all, df_bs_all, left_on=[ 'report_date'],
+                             right_on=[ 'report_date'], copy=True, indicator='exists',
+                             suffixes=('_is_cfs', '_bs'))
+
     # df_merged.fillna(0, inplace=True)
     df_merged.to_excel('../data/is_cfs_bs_'+name+'.xlsx')
     return df_merged
 
 
-def merge_industry_is_cfs_bs_match_begindate_bsdate(name):
+def merge_is_cfs_bs_match_begindate_bsdate(name):
     df_is_cfs_all = pd.read_excel('../data/is_cfs_'+name+'.xlsx', converters={'report_date_str': str})
     df_is_cfs_all['is_year_report'] = df_is_cfs_all['report_date_str_is'].map(lambda d: d.endswith('12-31'))
     df_is_cfs_all['begin_date'] = df_is_cfs_all['report_date_str_is'].map(lambda d: d[:5]+'01-01')
@@ -79,11 +92,11 @@ def calc_profit_ability(name):
     df_is_cfs_bs_begin.to_excel('../data/is_cfs_bs_begin_'+name+'.xlsx')
 
 
-def merge_is_cfs(name):
-    df_cfs = pd.read_excel('../data/is_cfs_' + name + '.xlsx')
-    df_is = pd.read_excel('../data/bs_' + name + '.xlsx')
-    df_cfs.fillna(0, inplace=True)
-    df_is.fillna(0, inplace=True)
-    df_merged = pd.merge(df_cfs, df_is, on='enddate',copy=True, indicator='both',suffixes=('_cfs','_is'))
-    df_merged.to_excel('../data/is_cfs_bs_' + name + '.xlsx')
-    return df_merged
+# def merge_is_cfs(name):
+#     df_cfs = pd.read_excel('../data/is_cfs_' + name + '.xlsx')
+#     df_is = pd.read_excel('../data/bs_' + name + '.xlsx')
+#     df_cfs.fillna(0, inplace=True)
+#     df_is.fillna(0, inplace=True)
+#     df_merged = pd.merge(df_cfs, df_is, on='enddate',copy=True, indicator='both',suffixes=('_cfs','_is'))
+#     df_merged.to_excel('../data/is_cfs_bs_' + name + '.xlsx')
+#     return df_merged
