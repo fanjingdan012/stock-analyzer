@@ -6,7 +6,7 @@ import chart.is_cfs_bs_chart as is_cfs_bs_chart
 if __name__=="__main__":
 
 
-    str_stock = 'SZ002488'
+    str_stock = 'SZ000333'
 
     # step 0 download
     # xueqiu_crawler.get_reports_for_1_stock(str_stock)
