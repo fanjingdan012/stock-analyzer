@@ -91,7 +91,86 @@ def calc_profit_ability(name):
     df_is_cfs_bs_begin['sr_div_a'] = df_is_cfs_bs_begin['total_revenue']/df_is_cfs_bs_begin['total_assets']
     df_is_cfs_bs_begin.to_excel('../data/is_cfs_bs_begin_'+name+'.xlsx')
 
+def calc_op_asset(name,isIndustry=True):
+    df_bs = pd.read_excel('../data/bs1_' + name + '.xlsx', converters={'report_date_str': str})
+    df_bs['oca'] = \
+                   +df_bs['general_risk_provision']\
+                   +df_bs['account_receivable']\
+                  +df_bs['bills_receivable']\
+                   +df_bs['pre_payment']\
+                   +df_bs['othr_receivables']\
+                   +df_bs['inventory']\
+                  +df_bs['nca_due_within_one_year']\
+                   +df_bs['othr_current_assets']\
+                   +df_bs['lt_receivable']\
+                   +df_bs['dev_expenditure']\
+                  +df_bs['lt_deferred_expense'] \
+                   + df_bs['othr_noncurrent_assets'] \
+                   + df_bs['contractual_assets'] \
+                   + df_bs['fixed_asset_sum']\
+                  +df_bs['construction_in_process_sum'] \
+                   + df_bs['project_goods_and_material'] \
+                   + df_bs['productive_biological_assets']\
+                  + df_bs['oil_and_gas_asset']\
+                   +df_bs['intangible_assets']\
+                   + df_bs['goodwill']
+    df_bs['ola'] = df_bs['dt_assets'] \
+            +df_bs['lt_equity_invest']\
 
+    df_bs.to_excel('../data/bs1_'+name+'.xlsx')
+
+def calc_op_liab(name,isIndustry=True):
+    df_bs = pd.read_excel('../data/bs1_' + name + '.xlsx', converters={'report_date_str': str})
+    df_bs['ocl'] = df_bs['payroll_payable'] + df_bs['tax_payable'] + df_bs['estimated_liab'] + df_bs[
+        'dt_liab'] + df_bs['accounts_payable'] + df_bs['bill_payable'] + df_bs['pre_receivable'] + df_bs['special_payable'] \
+    + df_bs['othr_current_liab'] + df_bs['contract_liabilities']
+    df_bs['oll'] = df_bs['payroll_payable'] + df_bs['tax_payable'] + df_bs['estimated_liab'] + df_bs[
+        'dt_liab'] + df_bs['accounts_payable'] + df_bs['bill_payable'] + df_bs['pre_receivable'] + df_bs[
+                      'special_payable'] \
+                  + df_bs['othr_current_liab'] + df_bs['contract_liabilities']
+    df_bs.to_excel('../data/bs1_' + name + '.xlsx')
+
+def calc_fin_asset(name,isIndustry=True):
+    df_bs = pd.read_excel('../data/bs1_' + name + '.xlsx', converters={'report_date_str': str})
+    df_bs['fca'] = df_bs['tradable_fnncl_assets'] + df_bs['interest_receivable'] + df_bs['saleable_finacial_assets'] + df_bs[
+        'held_to_maturity_invest'] \
+                  + df_bs['invest_property'] + df_bs['current_assets_si'] + df_bs['noncurrent_assets_si'] + df_bs['dividend_receivable'] \
+                  + df_bs['othr_payables'] + df_bs['salable_financial_assets'] + df_bs['to_sale_asset'] + df_bs[
+                      'other_eq_ins_invest'] \
+                  + df_bs['other_illiquid_fnncl_assets'] + df_bs['currency_funds']
+    df_bs['fla'] = df_bs['tradable_fnncl_assets'] + df_bs['interest_receivable'] + df_bs['saleable_finacial_assets'] + df_bs[
+        'held_to_maturity_invest'] \
+                  + df_bs['invest_property'] + df_bs['current_assets_si'] + df_bs['noncurrent_assets_si'] + df_bs['dividend_receivable'] \
+                  + df_bs['othr_payables'] + df_bs['salable_financial_assets'] + df_bs['to_sale_asset'] + df_bs[
+                      'other_eq_ins_invest'] \
+                  + df_bs['other_illiquid_fnncl_assets'] + df_bs['currency_funds']
+    df_bs.to_excel('../data/bs1_' + name + '.xlsx')
+
+def calc_fin_liab(name,isIndustry=True):
+    df_bs = pd.read_excel('../data/bs1_' + name + '.xlsx', converters={'report_date_str': str})
+    df_bs['fcl'] = df_bs['st_loan']+df_bs['tradable_fnncl_liab']+ df_bs['derivative_fnncl_liab'] +  df_bs['bond_payable'] +df_bs[
+        'interest_payable'] \
+                   + df_bs['current_liab_si'] + df_bs['noncurrent_liab_si'] + df_bs['dividend_payable'] \
+                  + df_bs['noncurrent_liab_due_in1y'] + df_bs['lt_loan'] + df_bs['lt_payable'] + df_bs[
+                      'othr_non_current_liab'] \
+                  + df_bs['to_sale_debt'] + df_bs['lt_payable_sum'] + df_bs['noncurrent_liaGAb_di']
+    df_bs['fll'] = df_bs['tradable_fnncl_liab'] + df_bs['bond_payable'] + df_bs['derivative_fnncl_liab'] + df_bs[
+        'interest_payable'] \
+                  + df_bs['st_loan'] + df_bs['current_liab_si'] + df_bs['noncurrent_liab_si'] + df_bs[
+                      'dividend_payable'] \
+                  + df_bs['noncurrent_liab_due_in1y'] + df_bs['lt_loan'] + df_bs['lt_payable'] + df_bs[
+                      'othr_non_current_liab'] \
+                  + df_bs['to_sale_debt'] + df_bs['lt_payable_sum'] + df_bs['noncurrent_liaGAb_di']
+    df_bs.to_excel('../data/bs1_' + name + '.xlsx')
+def calc_fin_liab(name,isIndustry=True):
+    df_bs = pd.read_excel('../data/bs1_' + name + '.xlsx', converters={'report_date_str': str})
+    df_bs['fl'] = df_bs['tradable_fnncl_liab'] + df_bs['bond_payable'] + df_bs['derivative_fnncl_liab'] + df_bs[
+        'interest_payable'] \
+                  + df_bs['st_loan'] + df_bs['current_liab_si'] + df_bs['noncurrent_liab_si'] + df_bs['dividend_payable'] \
+                  + df_bs['noncurrent_liab_due_in1y'] + df_bs['lt_loan'] + df_bs['lt_payable'] + df_bs[
+                      'othr_non_current_liab'] \
+                  + df_bs['to_sale_debt'] + df_bs['lt_payable_sum'] + df_bs['noncurrent_liab_di']
+    df_bs.to_excel('../data/bs1_' + name + '.xlsx')
 # def merge_is_cfs(name):
 #     df_cfs = pd.read_excel('../data/is_cfs_' + name + '.xlsx')
 #     df_is = pd.read_excel('../data/bs_' + name + '.xlsx')

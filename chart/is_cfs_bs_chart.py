@@ -12,6 +12,8 @@ import chart.is_cfs_chart as is_cfs_chart
 import stock_reader
 from matplotlib.font_manager import FontProperties
 import data_preprocessor
+from matplotlib import rcParams
+
 
 
 
@@ -151,7 +153,7 @@ def filter_df_by_stock_code(df_is_cfs_bs,str_stock_code):
 
 def draw_industry_is_cfs_bs_chart_for_stock(str_stock_code,str_industry=''):
     plt.style.use('ggplot')
-    fig, ax = plt.subplots(figsize=(20, 8))
+    fig, ax = plt.subplots(figsize=(30, 15))
     if str_industry != '':
         df_is_cfs_bs = read_df_by_industry(str_industry)
         df_is_cfs_bs = filter_df_by_stock_code(df_is_cfs_bs, str_stock_code)
@@ -166,7 +168,8 @@ def draw_industry_is_cfs_bs_chart_for_stock(str_stock_code,str_industry=''):
     if str_industry == '':
         # plt.title('stock:' + df_is_cfs_bs['stock_name'].iloc[0],fontProperties = font)
         plt.title('stock:' + str_stock_code, fontProperties=font)
-    draw_industry_is_cfs_bs_subplot(ax, df_is_cfs_bs, x='report_year', str_stock_code=str_stock_code)
+    rcParams.update({'figure.autolayout': True})
+    draw_industry_is_cfs_bs_subplot(ax, df_is_cfs_bs, x='report_date_str', str_stock_code=str_stock_code)
     plt.savefig('../data/charts/is_cfs_bs_' + str_stock_code + '.jpg')
     plt.show()
 
