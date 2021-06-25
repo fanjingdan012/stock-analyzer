@@ -28,10 +28,10 @@ def get_cfs_for_1_stock(str_stock_code):
         df.to_excel(get_file_name(str_stock_code))
 
 
-def get_cfs_for_1_stock_new(str_stock_code):
+def get_cfs_for_1_stock_new(str_stock_code,country):
     # stock_list=readStockList.read_industry_stock_list_by_code(stock_code)
     # data = get_data(stock_list, '/stock/f10/balsheet.json?size=10000&page=1', '../data/bs_'+stock_id)
-    url = 'https://stock.xueqiu.com/v5/stock/finance/cn/cash_flow.json?type=all&is_detail=true&count=10000&symbol='+str_stock_code
+    url = 'https://stock.xueqiu.com/v5/stock/finance/'+country+'/cash_flow.json?type=all&is_detail=true&count=10000&symbol='+str_stock_code
     print(url)
     str_response=xueqiu_base.get_response(url)
     # write_f10_xls(1, data, '../data/bs_'+stock_id)
@@ -47,7 +47,9 @@ def get_cfs_for_1_stock_new(str_stock_code):
 def get_file_name(name):
     # xueqiu_base.create_dir_if_not_there('../','data')
     # xueqiu_base.create_dir_if_not_there('../data', 'cfs')
-    return '../data/cfs/cfs_'+name+'.xlsx'
+    root_dir = os.path.dirname(os.path.abspath('./stock-analyzer'))
+    return root_dir + '/data/cfs/cfs_' + name + '.xlsx'
+
 
 
 

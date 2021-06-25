@@ -7,12 +7,15 @@
 - 如果雪球拒绝，请更改xueqiu.py的header(打开chrome访问雪球 F12)
 ![data](docs/pics/data.PNG)
 ## API
+### 中国
 - https://xueqiu.com/stock/forchart/stocklist.json?symbol=SH600519&period=1d&one_min=1
 - https://xueqiu.com/stock/forchartk/stocklist.json?symbol=SH600519&period=1week&type=normal&begin=1385706304210&end=1511850304210
 - https://xueqiu.com/stock/pankou.json?symbol=SH600519
 - https://xueqiu.com/stock/forchartk/stocklist.json?symbol=SH600519&period=1d&type=normal&begin=1385706304210&end=1511850304210
 - https://xueqiu.com/stock/forchartk/stocklist.json?symbol=SH600519&period=1week&type=normal&begin=1385706304210&end=1511850304210
 - https://xueqiu.com/stock/industry/stockList.json?code=SZ000333&type=1&size=100
+### 美国
+- https://stock.xueqiu.com/v5/stock/finance/us/income.json?symbol=SAP&type=Q4&is_detail=true&count=5&timestamp=
 
 # 可视化
 
@@ -23,6 +26,7 @@ run ana/is_cfs_chart.py
 ## 个股
 run f10_stock.py
 ![data](docs/pics/is_cfs_bs_SZ000333.jpg)
+
 ## 行业
 run f10_main.py
 ![data](docs/pics/is_cfs_bs_食品饮料_2019-12-31.jpg)

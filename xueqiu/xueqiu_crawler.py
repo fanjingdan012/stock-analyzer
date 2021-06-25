@@ -4,10 +4,10 @@ import xueqiu.xueqiu_income_statement as xueqiu_income_statement
 import stock_reader
 
 
-def get_reports_for_1_stock(stock_code):
-    xueqiu_balance_sheet.get_bs_for_1_stock(stock_code)
-    xueqiu_cash_flow_statement.get_cfs_for_1_stock_new(stock_code)
-    xueqiu_income_statement.get_is_for_1_stock_new(stock_code)
+def get_reports_for_1_stock(stock_code, country='cn'):
+    xueqiu_balance_sheet.get_bs_for_1_stock(stock_code, country)
+    xueqiu_cash_flow_statement.get_cfs_for_1_stock_new(stock_code, country)
+    xueqiu_income_statement.get_is_for_1_stock_new(stock_code, country)
     print("finished craw: %s" % (stock_code))
 
 

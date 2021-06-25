@@ -1,21 +1,33 @@
+import sys
+
+sys.path.append('../xueqiu')
+sys.path.append('../')
+sys.path.append('../chart')
+sys.path.append('.')
 import xueqiu.xueqiu_crawler as xueqiu_crawler
 import stock_reader
 import industry
 import data_preprocessor
 import chart.is_cfs_bs_chart as is_cfs_bs_chart
+
 if __name__=="__main__":
 
 
-    str_stock = 'SH600309'
+
+    str_stock = 'SH600692'
+        # 'SZ002192'
+
+        # 'SH600499'
+    # 'SZ002759'
     # 603703 603848
 
     # # step 0 download
-    xueqiu_crawler.get_reports_for_1_stock(str_stock)
+    xueqiu_crawler.get_reports_for_1_stock(str_stock,'cn')
     #
     # # step 1 append
-    data_preprocessor.adapt(str_stock,'bs',isIndustry=False)
-    data_preprocessor.adapt(str_stock, 'is',isIndustry=False)
-    data_preprocessor.adapt(str_stock, 'cfs',isIndustry=False)
+    data_preprocessor.adapt(str_stock,'bs',isIndustry=False,country='cn')
+    data_preprocessor.adapt(str_stock, 'is',isIndustry=False,country='cn')
+    data_preprocessor.adapt(str_stock, 'cfs',isIndustry=False,country='cn')
     #
     # # # step 2 merge is cfs
     df_is_cfs = data_preprocessor.merge_is_cfs(str_stock,isIndustry=False)

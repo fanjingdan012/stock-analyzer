@@ -5,12 +5,12 @@ import json
 import xueqiu.xueqiu_base as xueqiu_base
 import pandas as pd
 import datetime
+import os
 
-
-def get_bs_for_1_stock(str_stock_code):
+def get_bs_for_1_stock(str_stock_code,country):
     # stock_list=readStockList.read_industry_stock_list_by_code(stock_code)
     # data = get_data(stock_list, '/stock/f10/balsheet.json?size=10000&page=1', '../data/bs_'+stock_id)
-    url = 'https://stock.xueqiu.com/v5/stock/finance/cn/balance.json?symbol='+str_stock_code+'&type=all&is_detail=true&count=10000'
+    url = 'https://stock.xueqiu.com/v5/stock/finance/'+country+'/balance.json?symbol='+str_stock_code+'&type=all&is_detail=true&count=10000'
     print(url)
     str_response=xueqiu_base.get_response(url)
     # write_f10_xls(1, data, '../data/bs_'+stock_id)
@@ -26,5 +26,7 @@ def get_bs_for_1_stock(str_stock_code):
 def get_file_name(name):
     # xueqiu_base.create_dir_if_not_there('../','data')
     # xueqiu_base.create_dir_if_not_there('../data', 'bs')
-    return '../data/bs/bs_'+name+'.xlsx'
+    root_dir = os.path.dirname(os.path.abspath('./stock-analyzer'))
+    return root_dir + '/data/bs/bs_'+name+'.xlsx'
+
 

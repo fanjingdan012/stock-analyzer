@@ -5,8 +5,8 @@ import json
 #import eastmoney.eastmoneyStockList
 # import stock_reader
 #import MySQLdb
-import xlrd
-import xlwt
+# import xlrd
+# import xlwt
 # from xlutils.copy import copy
 import os
 import json
@@ -21,9 +21,9 @@ def get_headers ():
            #'Connection':'keep-alive',
            #'Accept':'*/*',
            'cookie':
-           'device_id=24700f9f1986800ab4fcc880530dd0ed; s=cg1b3m412x; bid=0a06371d48f8374467c697e47a995e89_kaw586dr; _ga=GA1.2.2059750112.1590994923; xq_a_token=4db837b914fc72624d814986f5b37e2a3d9e9944; xqat=4db837b914fc72624d814986f5b37e2a3d9e9944; xq_r_token=2d6d6cc8e57501dfe571d2881cabc6a5f2542bf8; xq_id_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1aWQiOi0xLCJpc3MiOiJ1YyIsImV4cCI6MTYwMDQ4MzAwNywiY3RtIjoxNTk3ODkxODQ4MzUxLCJjaWQiOiJkOWQwbjRBWnVwIn0.e0R_IZdVcDTQgA3u_bUkGUUBFneCvaEllVCuAexR7fA38xFv25hG71dRVnxrKF4u8GsyVqxha09JKiYg7zgmwP8L4NiTGZTEzOcaos6YS3xFoWKAT1qvqX9GJ5Y9gWO946aiKMuogJWJi_PboplpYhLWzo0k5K5Tk37RoxpowmIS2-KqFlZJxAdaNnCG1ez2K2UptY4-ek9c_anJkTLD2xKrehjSMasDBddWq4ohWTLZeFfrzLM-QOufgR9978QKA-M5Tl2sZJYwd-sJRX7NACKMBn7JKqo8LPAJmnpxKwmKqw5Ho8LVDVGpmF5K2Bq_ArSo0fV8G5FQ033Sra2Osw; u=811597891897067; Hm_lvt_1db88642e346389874251b5a1eded6e3=1596428837,1597891903; Hm_lpvt_1db88642e346389874251b5a1eded6e3=1597891903'
-        # 'aliyungf_tc=AQAAAI4xBBot5AQAhF2dtAhi4C7u71Tw; acw_tc=2760822515896845713355773e670a393ef1cfd67c4c7359f4b58477e92093; xq_a_token=328f8bbf7903261db206d83de7b85c58e4486dda; xqat=328f8bbf7903261db206d83de7b85c58e4486dda; xq_r_token=22ab4927b9acb2a02a4efefe14ccbbc589e007cb; xq_id_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1aWQiOi0xLCJpc3MiOiJ1YyIsImV4cCI6MTU5MTg0Mjc0NiwiY3RtIjoxNTg5Njg0NTI0NTk5LCJjaWQiOiJkOWQwbjRBWnVwIn0.PPEp318ISXxjV7NkZHOLMa1n-0WwAmmccBnguPkMGD25k5CBFw0SaJO8nz6EzX7pDcBV7pcJlfEY4Fm7zBbFx0JLCiB3ehi8-UwT8l6m16lxWAM3VEx1WYM15NPEnMW0bGetZDsje-g3uElUvI_fee0kNJ0dnNPvzBp8D1maImkSooCYOTg_Vyhyhp6vc-8mrlgJB5FArY-Zeyqi2lTR-0fOwmE0VEAooBHke9XSBv8HJmTSpfYRU_iEdTzQffkS5hdX6YdoyLhwhG8mUQI2I_PAwKz7kDi3ThGGimgUbEiXRfP9G0OiOdUCeBl68ywOVgcAdoM5YCAsJ0F31rKqQw; u=671589684571340; device_id=24700f9f1986800ab4fcc880530dd0ed; Hm_lvt_1db88642e346389874251b5a1eded6e3=1589684574; s=bx1rh9f53p; Hm_lpvt_1db88642e346389874251b5a1eded6e3=1589684582; __utma=1.1597517040.1589684582.1589684582.1589684582.1; __utmc=1; __utmz=1.1589684582.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __utmt=1; __utmb=1.1.10.1589684582'
-    }
+        'device_id=24700f9f1986800ab4fcc880530dd0ed; s=dq18rp9aqh; __utmz=1.1609736450.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); Hm_lvt_1db88642e346389874251b5a1eded6e3=1623722132; __utmc=1; acw_tc=2760820516241556371925094e7d5c969812e32748bc1fd28a974cf243e65f; xq_a_token=f257b9741beeb7f05f6296e58041e56c810c8ef8; xqat=f257b9741beeb7f05f6296e58041e56c810c8ef8; xq_r_token=2e05f6c50e316248a8a08ab6a47bc781da7fddfb; xq_id_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1aWQiOi0xLCJpc3MiOiJ1YyIsImV4cCI6MTYyNjQwMzgwNSwiY3RtIjoxNjI0MTU1NTg0Mjk2LCJjaWQiOiJkOWQwbjRBWnVwIn0.jBM-6ejjd2PQQcwiPW0GTG_aQKUWeJbafWRNrTG8jBqFzu7g_E5c8uWrJy1Cp8nRBI0r7o7VE_cKcI1oR--l6AF0tm2Yxlyd4y_rZF3lacmDBNK1C7iVpQSBJGBfR3CGz_ETtvfFGwDMIPePqQU0pBFmKEFGBsP5lp2zvNZF4xaThK-OgF40sL84JPWzdhBWBzz4PSbfVMqIv5NVD05MKlHhhnCZ2ZbMW1I-kAlBGaa2a7uUDDc6mUoX7XnKA9YA3kYVMmAW_0TAz8Pn9VTnhSEdfJGHUE-zMIAThjDpQeDH4O3H0uCYEf3Y030VWED1Gqv63la4skQY34_HA50pYA; u=641624155637206; __utma=1.1208258989.1609736450.1623722138.1624155648.4; __utmt=1; __utmb=1.1.10.1624155648; is_overseas=0; Hm_lpvt_1db88642e346389874251b5a1eded6e3=1624155674'
+           # 'device_id=24700f9f1986800ab4fcc880530dd0ed; s=dq18rp9aqh; __utmz=1.1609736450.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); acw_tc=2760820116237221316058756e140f260d25dd5b4c353289fd7ddbfc3aafa9; xq_a_token=ac3c2b00373aafa819dd63230fff55140e7d0bb4; xqat=ac3c2b00373aafa819dd63230fff55140e7d0bb4; xq_r_token=c73c6ef7939ae99173067d99572528058c22bed7; xq_id_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1aWQiOi0xLCJpc3MiOiJ1YyIsImV4cCI6MTYyNTEwNzgwNiwiY3RtIjoxNjIzNzIyMDc0MTI3LCJjaWQiOiJkOWQwbjRBWnVwIn0.RQ9ipgkhqFY1Bj-3cmbfi8pHdo2agNfkVbqdB6ovRIrvda6Ycq131O1tJTtw9tUyPOMoG1AVymXR2pzYsE-go9EnmEhORbZZF-O1vWhR54szE3kN8cBZWUDeRoRJQjjsTQqYDeyWq5Puz1OwmRb0mEVv5L89INdUGhc1UKTs-KZrL_Xg9boWnbVOPGGLln7OWa_yM_bVR1fX0cLIE8U6cl_ni0_2iyDuyTiGR7d-s2Xvhk4OyH4b4ft5zWASgvtJFzFjfevT1ceDpv_Dx-hai4u-FX57wIliatpoLV7W0qmHqreSsnSaSJmepYoEEeLdCMSHnqixS01Twf7pnJoSJQ; u=511623722131615; Hm_lvt_1db88642e346389874251b5a1eded6e3=1623722132; Hm_lpvt_1db88642e346389874251b5a1eded6e3=1623722138; __utma=1.1208258989.1609736450.1609742854.1623722138.3; __utmc=1; __utmt=1; __utmb=1.1.10.1623722138'
+           }
 
 
 

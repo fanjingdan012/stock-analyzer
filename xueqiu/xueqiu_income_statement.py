@@ -43,8 +43,8 @@ def get_is_for_1_stock(str_stock_code):
         df = pd.read_json(str_list, orient='records')
         df.to_excel(get_file_name(str_stock_code))
 
-def get_is_for_1_stock_new(str_stock_code):
-    url = 'https://stock.xueqiu.com/v5/stock/finance/cn/income.json?type=all&is_detail=true&count=10000&symbol='+str_stock_code
+def get_is_for_1_stock_new(str_stock_code, country):
+    url = 'https://stock.xueqiu.com/v5/stock/finance/'+country+'/income.json?type=all&is_detail=true&count=10000&symbol='+str_stock_code
     print(url)
     str_response=xueqiu_base.get_response(url)
     # write_f10_xls(1, data, '../data/bs_'+stock_id)
@@ -59,4 +59,5 @@ def get_is_for_1_stock_new(str_stock_code):
 def get_file_name(name):
     # xueqiu_base.create_dir_if_not_there('../','data')
     # xueqiu_base.create_dir_if_not_there('../data', 'is')
-    return '../data/is/is_'+name+'.xlsx'
+    root_dir = os.path.dirname(os.path.abspath('./stock-analyzer'))
+    return root_dir + '/data/is/is_' + name + '.xlsx'
