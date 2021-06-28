@@ -2,4 +2,7 @@ pandas
 xlrd
 sqlalchemy
 matplotlib
-
+numpy
+six
+pillow
+certifi
