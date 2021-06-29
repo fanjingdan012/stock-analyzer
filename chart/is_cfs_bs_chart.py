@@ -13,7 +13,7 @@ import stock_reader
 from matplotlib.font_manager import FontProperties
 import data_preprocessor
 from matplotlib import rcParams
-
+from datetime import datetime
 
 
 
@@ -165,7 +165,7 @@ def draw_industry_is_cfs_bs_chart_for_stock(str_stock_code,str_industry=''):
         df_is_cfs_bs = read_df_by_industry(str_industry)
         df_is_cfs_bs = filter_df_by_stock_code(df_is_cfs_bs, str_stock_code)
     else:
-        dateparse = lambda dates: pd.datetime.strptime(dates, '%Y-%m-%d')
+        dateparse = lambda dates: datetime.strptime(dates, '%Y-%m-%d')
         df_is_cfs_bs = pd.read_excel(root_dir+'/../data/is_cfs_bs_' + str_stock_code + '.xlsx', parse_dates=['report_date_str_is'],
                                      date_parser=dateparse)
         df_is_cfs_bs=df_is_cfs_bs.sort_values(by=['report_date'],ascending=True)
