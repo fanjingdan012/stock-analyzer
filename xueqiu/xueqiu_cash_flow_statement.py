@@ -48,7 +48,6 @@ def get_cfs_for_1_stock_new(str_stock_code,country):
 def get_file_name(name):
     # xueqiu_base.create_dir_if_not_there('../','data')
     # xueqiu_base.create_dir_if_not_there('../data', 'cfs')
-    root_dir = os.path.dirname(os.path.abspath('./stock-analyzer'))
     return root_dir + '/../data/cfs/cfs_' + name + '.xlsx'
 
 

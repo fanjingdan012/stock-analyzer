@@ -1,7 +1,7 @@
 import pandas as pd
 import datetime
 import time
-from sqlalchemy import create_engine
+# from sqlalchemy import create_engine
 import numpy as np
 import os
 import my_util
@@ -69,7 +69,7 @@ def adapt(name,report_type,isIndustry=True,country='cn'):
 
 
     adapted3.to_excel(root_dir+'/data/'+report_type+'1_' + name + '.xlsx')
-    engine = create_engine('mysql+pymysql://root:123456@localhost:3306/stock')
+    # engine = create_engine('mysql+pymysql://root:123456@localhost:3306/stock')
     # adapted4 = adapted3.drop(['Unnamed: 0', 'Unnamed: 0.1'], axis=1)
     # adapted4.to_sql(report_type+'_fin', engine, if_exists='append', index=False)
     # return adapted4

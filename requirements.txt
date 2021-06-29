@@ -7,3 +7,4 @@ six
 pillow
 certifi
 squarify
+openpyxl
