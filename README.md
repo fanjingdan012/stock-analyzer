@@ -1,4 +1,6 @@
 # 雪球爬虫
+# Prepare
+`pip install -r requirements.txt`
 # How to run
 - run main/f10_main.py  
   - 获取行业所有报表，横向纵向比较
