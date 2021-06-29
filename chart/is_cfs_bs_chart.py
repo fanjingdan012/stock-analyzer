@@ -18,7 +18,9 @@ from matplotlib import rcParams
 
 
 import os
-root_dir = __file__[:__file__.rfind("/")]
+
+abs_dir = __file__.replace('\\', '/')
+root_dir = abs_dir[:abs_dir.rfind("/")]
 def draw_industry_is_cfs_bs_subplot(ax,df,x,str_stock_code=''):
     width = 0.10
     # cfs var

@@ -9,8 +9,9 @@ import os
 import xueqiu.xueqiu_base as xueqiu_base
 import pandas as pd
 def get_abs_path():
-    abs_dir = __file__[:__file__.rfind("/")]
-    return abs_dir
+    abs_dir = __file__.replace('\\','/')
+    root_dir = abs_dir[:abs_dir.rfind("/")]
+    return root_dir
 
 def getIncomeStatements(shOrSz,rangeStart,rangeEnd):
     headers = xueqiu_base.get_headers()

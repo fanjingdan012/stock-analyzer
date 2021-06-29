@@ -7,7 +7,8 @@ import pandas as pd
 import datetime
 import os
 
-root_dir = __file__[:__file__.rfind("/")]
+abs_dir = __file__.replace('\\', '/')
+root_dir = abs_dir[:abs_dir.rfind("/")]
 def get_bs_for_1_stock(str_stock_code,country):
     # stock_list=readStockList.read_industry_stock_list_by_code(stock_code)
     # data = get_data(stock_list, '/stock/f10/balsheet.json?size=10000&page=1', '../data/bs_'+stock_id)

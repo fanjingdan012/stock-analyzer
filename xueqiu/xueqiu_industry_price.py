@@ -15,8 +15,9 @@ import xlrd
 import os
 import json
 def get_abs_path(path):
-    abs_dir = __file__[:__file__.rfind("/")]
-    return abs_dir+path
+    abs_dir = __file__.replace('\\', '/')
+    root_dir = abs_dir[:abs_dir.rfind("/")]
+    return root_dir+path
 
 def read_industry_df():
     abs_file = __file__

@@ -2,8 +2,9 @@ from xlrd import open_workbook
 import pandas as pd
 
 def get_abs_path():
-    abs_dir = __file__[:__file__.rfind("/")]
-    return abs_dir
+    abs_dir = __file__.replace('\\', '/')
+    root_dir = abs_dir[:abs_dir.rfind("/")]
+    return root_dir
 
 def read_stock_list(sh_sz, range_start, range_end):
     stock_list = []
