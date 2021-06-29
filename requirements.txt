@@ -6,3 +6,4 @@ numpy
 six
 pillow
 certifi
+squarify

@@ -4,7 +4,8 @@ import time
 from sqlalchemy import create_engine
 import numpy as np
 import os
-root_dir = os.path.dirname(os.path.abspath('./stock-analyzer'))
+
+root_dir = __file__[:__file__.rfind("/")]
 def adapt(name,report_type,isIndustry=True,country='cn'):
     if isIndustry:
         adapted = pd.read_excel(root_dir+'/data/' + report_type + '_' + name + '.xlsx')
@@ -113,13 +114,13 @@ def merge_is_cfs_bs_match_begindate_bsdate(name):
     df_cfs_all_yearly.to_excel(root_dir+'/data/is_cfs_yearly_' + name + '.xlsx')
 
 
-    # df_is_cfs_bs = pd.read_excel('../data/is_cfs_bs_' + str_industry + '.xlsx', parse_dates=['enddate'],
+    # df_is_cfs_bs = pd.read_excel(root_dir+'/data/is_cfs_bs_' + str_industry + '.xlsx', parse_dates=['enddate'],
     #                              date_parser=dateparse)
     df_bs_all = pd.read_excel(root_dir+'/data/bs1_' + name + '.xlsx', converters={'report_date_str': str})
     df_bs_all['is_year_report'] = df_bs_all['report_date_str'].map(lambda d: d.endswith('12-31'))
     df_bs_all_yearly = df_bs_all[df_bs_all['is_year_report'] == True]
     df_bs_all_yearly.fillna(0, inplace=True)
-    df_bs_all_yearly.to_excel('../data/bs_yearly_' + name + '.xlsx')
+    df_bs_all_yearly.to_excel(root_dir+'/data/bs_yearly_' + name + '.xlsx')
 
     now = datetime.datetime.now()
     date = now + datetime.timedelta(days=1)
@@ -135,7 +136,7 @@ def calc_profit_ability(name):
     df_is_cfs_bs_begin['roa'] = df_is_cfs_bs_begin['net_profit']/df_is_cfs_bs_begin['total_assets']
     df_is_cfs_bs_begin['ni_div_sr'] = df_is_cfs_bs_begin['net_profit']/df_is_cfs_bs_begin['total_revenue']
     df_is_cfs_bs_begin['sr_div_a'] = df_is_cfs_bs_begin['total_revenue']/df_is_cfs_bs_begin['total_assets']
-    df_is_cfs_bs_begin.to_excel('../data/is_cfs_bs_begin_'+name+'.xlsx')
+    df_is_cfs_bs_begin.to_excel(root_dir+'/data/is_cfs_bs_begin_'+name+'.xlsx')
 
 def calc_op_asset(name,isIndustry=True):
     df_bs = pd.read_excel(root_dir+'/data/bs1_' + name + '.xlsx', converters={'report_date_str': str})
@@ -163,10 +164,10 @@ def calc_op_asset(name,isIndustry=True):
     df_bs['ola'] = df_bs['dt_assets'] \
             +df_bs['lt_equity_invest']\
 
-    df_bs.to_excel('../data/bs1_'+name+'.xlsx')
+    df_bs.to_excel(root_dir+'/data/bs1_'+name+'.xlsx')
 
 def calc_op_liab(name,isIndustry=True):
-    df_bs = pd.read_excel('../data/bs1_' + name + '.xlsx', converters={'report_date_str': str})
+    df_bs = pd.read_excel(root_dir+'/data/bs1_' + name + '.xlsx', converters={'report_date_str': str})
     df_bs['ocl'] = df_bs['payroll_payable'] + df_bs['tax_payable'] + df_bs['estimated_liab'] + df_bs[
         'dt_liab'] + df_bs['accounts_payable'] + df_bs['bill_payable'] + df_bs['pre_receivable'] + df_bs['special_payable'] \
     + df_bs['othr_current_liab'] + df_bs['contract_liabilities']
@@ -174,10 +175,10 @@ def calc_op_liab(name,isIndustry=True):
         'dt_liab'] + df_bs['accounts_payable'] + df_bs['bill_payable'] + df_bs['pre_receivable'] + df_bs[
                       'special_payable'] \
                   + df_bs['othr_current_liab'] + df_bs['contract_liabilities']
-    df_bs.to_excel('../data/bs1_' + name + '.xlsx')
+    df_bs.to_excel(root_dir+'/data/bs1_' + name + '.xlsx')
 
 def calc_fin_asset(name,isIndustry=True):
-    df_bs = pd.read_excel('../data/bs1_' + name + '.xlsx', converters={'report_date_str': str})
+    df_bs = pd.read_excel(root_dir+'/data/bs1_' + name + '.xlsx', converters={'report_date_str': str})
     df_bs['fca'] = df_bs['tradable_fnncl_assets'] + df_bs['interest_receivable'] + df_bs['saleable_finacial_assets'] + df_bs[
         'held_to_maturity_invest'] \
                   + df_bs['invest_property'] + df_bs['current_assets_si'] + df_bs['noncurrent_assets_si'] + df_bs['dividend_receivable'] \
@@ -209,7 +210,7 @@ def calc_fin_liab(name,isIndustry=True):
                   + df_bs['to_sale_debt'] + df_bs['lt_payable_sum'] + df_bs['noncurrent_liaGAb_di']
     df_bs.to_excel(root_dir+'/data/bs1_' + name + '.xlsx')
 def calc_fin_liab(name,isIndustry=True):
-    df_bs = pd.read_excel('../data/bs1_' + name + '.xlsx', converters={'report_date_str': str})
+    df_bs = pd.read_excel(root_dir+'/data/bs1_' + name + '.xlsx', converters={'report_date_str': str})
     df_bs['fl'] = df_bs['tradable_fnncl_liab'] + df_bs['bond_payable'] + df_bs['derivative_fnncl_liab'] + df_bs[
         'interest_payable'] \
                   + df_bs['st_loan'] + df_bs['current_liab_si'] + df_bs['noncurrent_liab_si'] + df_bs['dividend_payable'] \
@@ -218,10 +219,10 @@ def calc_fin_liab(name,isIndustry=True):
                   + df_bs['to_sale_debt'] + df_bs['lt_payable_sum'] + df_bs['noncurrent_liab_di']
     df_bs.to_excel(root_dir+'/data/bs1_' + name + '.xlsx')
 # def merge_is_cfs(name):
-#     df_cfs = pd.read_excel('../data/is_cfs_' + name + '.xlsx')
-#     df_is = pd.read_excel('../data/bs_' + name + '.xlsx')
+#     df_cfs = pd.read_excel(root_dir+'/data/is_cfs_' + name + '.xlsx')
+#     df_is = pd.read_excel(root_dir+'/data/bs_' + name + '.xlsx')
 #     df_cfs.fillna(0, inplace=True)
 #     df_is.fillna(0, inplace=True)
 #     df_merged = pd.merge(df_cfs, df_is, on='enddate',copy=True, indicator='both',suffixes=('_cfs','_is'))
-#     df_merged.to_excel('../data/is_cfs_bs_' + name + '.xlsx')
+#     df_merged.to_excel(root_dir+'/data/is_cfs_bs_' + name + '.xlsx')
 #     return df_merged

@@ -14,9 +14,15 @@ import xlrd
 # from xlutils.copy import copy
 import os
 import json
+def get_abs_path(path):
+    abs_dir = __file__[:__file__.rfind("/")]
+    return abs_dir+path
 
 def read_industry_df():
-    dfo = pd.read_csv('../basicdata/xueqiu_industry.csv')
+    abs_file = __file__
+    abs_dir = abs_file[:abs_file.rfind("/")]
+    print("abs path is %s" % (abs_dir))
+    dfo = pd.read_csv(get_abs_path('/../basicdata/xueqiu_industry.csv'))
     return dfo
 
 def get_xueqiu_industry_quote(industry_df,  file_name):
@@ -101,7 +107,7 @@ def get_xueqiu_industry_quote(industry_df,  file_name):
 #     print(row)
 #     return row
 def get_merged_csrc_industry():
-    dfo1 = pd.read_excel('../basicdata/csrc_industry.xlsx', skiprows=1,usecols='B,C,D,E')
+    dfo1 = pd.read_excel(get_abs_path('/../basicdata/csrc_industry.xlsx'), skiprows=1,usecols='B,C,D,E')
     df_industry2 = dfo1[dfo1['level'] == 2]
     df_industry2.rename(columns={'code': 'industry2_code'}, inplace=True)
     df_industry2.rename(columns={'name': 'industry2_name'}, inplace=True)
@@ -117,9 +123,9 @@ def get_merged_csrc_industry():
 
 def write_csv(date):
     df_industry = read_industry_df()
-    dfo = pd.read_excel('../data/industry_quote/'+date+".xlsx")
+    dfo = pd.read_excel(get_abs_path('/../data/industry_quote/'+date+".xlsx"))
     df_merge = pd.merge(df_industry, dfo, how='right')
-    df_merge.to_csv('../data/industry_quote/'+date+".csv" , index=False,encoding = "utf-8")
+    df_merge.to_csv(get_abs_path('/../docs/static/industry_quote/'+date+".csv") , index=False,encoding = "utf-8")
 
 
 

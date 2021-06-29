@@ -18,7 +18,7 @@ from matplotlib import rcParams
 
 
 import os
-root_dir = os.path.dirname(os.path.abspath('./stock-analyzer'))
+root_dir = __file__[:__file__.rfind("/")]
 def draw_industry_is_cfs_bs_subplot(ax,df,x,str_stock_code=''):
     width = 0.10
     # cfs var
@@ -135,9 +135,9 @@ def draw_industry_is_cfs_bs_subplot(ax,df,x,str_stock_code=''):
 
 def read_df_by_industry(str_industry):
     dateparse = lambda dates: pd.datetime.strptime(dates, '%Y-%m-%d')
-    df_is_cfs_bs = pd.read_excel('../data/is_cfs_bs_' + str_industry + '.xlsx', parse_dates=['report_date_str_is'],
+    df_is_cfs_bs = pd.read_excel(root_dir+'/../data/is_cfs_bs_' + str_industry + '.xlsx', parse_dates=['report_date_str_is'],
                                  date_parser=dateparse)
-    # df_is_cfs = pd.read_excel('../data/is_cfs_'+str_industry+'.xlsx',converters={'enddate':str})
+    # df_is_cfs = pd.read_excel(root_dir+'/../data/is_cfs_'+str_industry+'.xlsx',converters={'enddate':str})
     # print(df_is_cfs.keys())
     return df_is_cfs_bs
 
@@ -164,7 +164,7 @@ def draw_industry_is_cfs_bs_chart_for_stock(str_stock_code,str_industry=''):
         df_is_cfs_bs = filter_df_by_stock_code(df_is_cfs_bs, str_stock_code)
     else:
         dateparse = lambda dates: pd.datetime.strptime(dates, '%Y-%m-%d')
-        df_is_cfs_bs = pd.read_excel(root_dir+'/data/is_cfs_bs_' + str_stock_code + '.xlsx', parse_dates=['report_date_str_is'],
+        df_is_cfs_bs = pd.read_excel(root_dir+'/../data/is_cfs_bs_' + str_stock_code + '.xlsx', parse_dates=['report_date_str_is'],
                                      date_parser=dateparse)
         df_is_cfs_bs=df_is_cfs_bs.sort_values(by=['report_date'],ascending=True)
 
@@ -179,7 +179,7 @@ def draw_industry_is_cfs_bs_chart_for_stock(str_stock_code,str_industry=''):
         # plt.title('stock:' + df_is_cfs_bs['stock_name'].iloc[0],fontProperties = font)
         plt.title('stock:' + str_stock_code)
     draw_industry_is_cfs_bs_subplot(ax, df_is_cfs_bs, x='report_date_str', str_stock_code=str_stock_code)
-    plt.savefig(root_dir+'/data/charts/is_cfs_bs_' + str_stock_code + '.jpg')
+    plt.savefig(root_dir+'/../data/charts/is_cfs_bs_' + str_stock_code + '.jpg')
     plt.show()
 
 
@@ -193,7 +193,7 @@ def draw_industry_is_cfs_bs_chart_for_enddate(str_industry,str_enddate):
     df_is_cfs_bs=filter_df_by_enddate(df_is_cfs_bs,str_enddate)
     # print(df_is_cfs)
     draw_industry_is_cfs_bs_subplot(ax, df_is_cfs_bs, x='stock_code')
-    plt.savefig(root_dir+'/data/charts/is_cfs_bs_'+str_industry+"_"+str_enddate+'.jpg')
+    plt.savefig(root_dir+'/../data/charts/is_cfs_bs_'+str_industry+"_"+str_enddate+'.jpg')
     plt.show()
 
 

@@ -1,3 +1,9 @@
+import sys
+
+sys.path.append('../xueqiu')
+sys.path.append('../')
+sys.path.append('../chart')
+sys.path.append('.')
 import xueqiu.xueqiu_crawler as xueqiu_crawler
 import stock_reader
 import industry
@@ -52,9 +58,9 @@ if __name__=="__main__":
     # df_is_cfs = data_preprocessor.merge_is_cfs(str_industry)
     # #
     # # # step 3 merge is_cfs bs
-    # df_is_cfs_bs = data_preprocessor.merge_industry_is_cfs_bs_match_enddate_bsdate(str_industry)
-    # df_is_cfs_bs_begin = data_preprocessor.merge_industry_is_cfs_bs_match_begindate_bsdate(str_industry)
-    #
+    # df_is_cfs_bs = data_preprocessor.merge_is_cfs_bs_match_enddate_bsdate(str_industry)
+    # df_is_cfs_bs_begin = data_preprocessor.merge_is_cfs_bs_match_begindate_bsdate(str_industry)
+
     # # # step 3.1 calculate some rates
     # data_preprocessor.calc_profit_ability(str_industry)
 
@@ -66,7 +72,7 @@ if __name__=="__main__":
     # is_cfs_bs_chart.draw_industry_is_cfs_bs_chart_for_stock(str_industry, 'SZ300294')
 
     # # step 4.2 draw chart by year
-    enddates=['2019-12-31','2018-12-31' ,'2017-12-31'  ]
+    enddates=['2020-12-31','2019-12-31' ]
     for enddate in enddates:
         is_cfs_bs_chart.draw_industry_is_cfs_bs_chart_for_enddate(str_industry, enddate)
 

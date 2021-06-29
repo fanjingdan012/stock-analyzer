@@ -8,6 +8,9 @@ import os
 
 import xueqiu.xueqiu_base as xueqiu_base
 import pandas as pd
+def get_abs_path():
+    abs_dir = __file__[:__file__.rfind("/")]
+    return abs_dir
 
 def getIncomeStatements(shOrSz,rangeStart,rangeEnd):
     headers = xueqiu_base.get_headers()
@@ -59,5 +62,5 @@ def get_is_for_1_stock_new(str_stock_code, country):
 def get_file_name(name):
     # xueqiu_base.create_dir_if_not_there('../','data')
     # xueqiu_base.create_dir_if_not_there('../data', 'is')
-    root_dir = os.path.dirname(os.path.abspath('./stock-analyzer'))
-    return root_dir + '/data/is/is_' + name + '.xlsx'
+    # root_dir = os.path.dirname(os.path.abspath('./stock-analyzer'))
+    return get_abs_path() + '/../data/is/is_' + name + '.xlsx'
