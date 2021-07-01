@@ -1,14 +1,11 @@
 from xlrd import open_workbook
 import pandas as pd
+import my_util
 
-def get_abs_path():
-    abs_dir = __file__.replace('\\', '/')
-    root_dir = abs_dir[:abs_dir.rfind("/")]
-    return root_dir
 
 def read_stock_list(sh_sz, range_start, range_end):
     stock_list = []
-    stockxls = get_abs_path()+'/basicdata/stocks.xlsx'
+    stockxls = my_util.get_abs_path()+'/basicdata/stocks.xlsx'
     with open(stockxls, 'rb') as f:
         book = open_workbook(stockxls)
         # print(open_workbook(file_contents=mmap(f.fileno(),0,access=ACCESS_READ)))
@@ -23,7 +20,7 @@ def read_stock_list(sh_sz, range_start, range_end):
 
 def read_industry_stock_list(range_start, range_end):
     stock_list = []
-    stockxls = get_abs_path()+'/basicdata/industry.csv'
+    stockxls = my_util.get_abs_path()+'/basicdata/industry.csv'
     with open(stockxls, 'rb') as f:
         book = open_workbook(stockxls)
         # print(open_workbook(file_contents=mmap(f.fileno(),0,access=ACCESS_READ)))
@@ -34,12 +31,12 @@ def read_industry_stock_list(range_start, range_end):
 
 
 def read_sw_industry_stock_df(industry):
-    dfo = pd.read_csv(get_abs_path()+'/basicdata/SwClass.csv')
+    dfo = pd.read_csv(my_util.get_abs_path()+'/basicdata/SwClass.csv')
     df = dfo[dfo['industry'] == industry]
     return df
 
 
 def read_sw_industry_stock_df_by_code(stock_code):
-    dfo = pd.read_csv(get_abs_path()+'/basicdata/SwClass.csv')
+    dfo = pd.read_csv(my_util.get_abs_path()+'/basicdata/SwClass.csv')
     df = dfo[dfo['stock_code'] == stock_code]
     return df

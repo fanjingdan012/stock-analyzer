@@ -13,8 +13,7 @@ import xueqiu.xueqiu_base as xueqiu_base
 import pandas as pd
 import datetime
 
-abs_dir = __file__.replace('\\', '/')
-root_dir = abs_dir[:abs_dir.rfind("/")]
+import my_util
 def get_cfs_for_1_stock(str_stock_code):
     # stock_list=readStockList.read_industry_stock_list_by_code(stock_code)
     # data = get_data(stock_list, '/stock/f10/balsheet.json?size=10000&page=1', '../data/bs_'+stock_id)
@@ -48,7 +47,7 @@ def get_cfs_for_1_stock_new(str_stock_code,country):
 def get_file_name(name):
     # xueqiu_base.create_dir_if_not_there('../','data')
     # xueqiu_base.create_dir_if_not_there('../data', 'cfs')
-    return root_dir + '/../data/cfs/cfs_' + name + '.xlsx'
+    return my_util.get_abs_path() + '/data/cfs/cfs_' + name + '.xlsx'
 
 
 

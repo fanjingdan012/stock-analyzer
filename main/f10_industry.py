@@ -21,7 +21,7 @@ if __name__=="__main__":
     # str_industry = '钢铁'#DONE
     # str_industry = '公用事业' #DONE
     # str_industry = '国防军工'#DONE
-    # str_industry = '化工'#DONE
+    str_industry = '化工'#DONE
     # str_industry = '机械设备'#DONE
     # str_industry = '计算机'#DONE
     # str_industry = '家用电器' #DONE
@@ -32,7 +32,7 @@ if __name__=="__main__":
     # str_industry = '汽车' #DONE
     # str_industry = '轻工制造'#DONE
     # str_industry = '商业贸易'DONE
-    str_industry = '食品饮料' #DONE
+    # str_industry = '食品饮料' #DONE
     # str_industry = '通信'DONE
     # str_industry = '休闲服务'#DONE
     # str_industry = '医药生物' #DONE
@@ -41,9 +41,9 @@ if __name__=="__main__":
     # str_industry = '综合'#DONE
 
     # step 0 download
-    # df=stock_reader.read_sw_industry_stock_df(str_industry)
-    # for stock_code in df['stock_code']:
-    #     xueqiu_crawler.get_reports_for_1_stock(stock_code)
+    df=stock_reader.read_sw_industry_stock_df(str_industry)
+    for stock_code in df['stock_code']:
+        xueqiu_crawler.get_reports_for_1_stock(stock_code)
 
 
 

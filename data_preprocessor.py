@@ -7,7 +7,7 @@ import os
 import my_util
 
 
-root_dir = my_util.get_abs_path(__file__)
+root_dir = my_util.get_abs_path()
 def adapt(name,report_type,isIndustry=True,country='cn'):
     if isIndustry:
         adapted = pd.read_excel(root_dir+'/data/' + report_type + '_' + name + '.xlsx')

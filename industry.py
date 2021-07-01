@@ -6,9 +6,9 @@ from my_util import get_abs_path
 def append_reports_for_industry(industry,df_industry):
     for i in range(0, len(df_industry)):
         stock_code=df_industry.iloc[i]['stock_code']
-        df_cfs = pd.read_excel(get_abs_path(__file__)+'/data/cfs/cfs_'+stock_code+'.xlsx')  # , skiprows=1
-        df_is = pd.read_excel(get_abs_path(__file__)+'/data/is/is_'+stock_code+'.xlsx')
-        df_bs = pd.read_excel(get_abs_path(__file__)+'/data/bs/bs_'+stock_code+'.xlsx')
+        df_cfs = pd.read_excel(get_abs_path()+'/data/cfs/cfs_'+stock_code+'.xlsx')  # , skiprows=1
+        df_is = pd.read_excel(get_abs_path()+'/data/is/is_'+stock_code+'.xlsx')
+        df_bs = pd.read_excel(get_abs_path()+'/data/bs/bs_'+stock_code+'.xlsx')
         df_cfs['stock_code'] = stock_code
         df_is['stock_code'] = stock_code
         df_bs['stock_code'] = stock_code
@@ -30,6 +30,6 @@ def append_reports_for_industry(industry,df_industry):
     df_is_all.fillna(0, inplace=True)
     df_bs_all.fillna(0, inplace=True)
     # print(df_cfs.keys())
-    df_cfs_all.to_excel(get_abs_path(__file__)+'/data/cfs_'+industry+'.xlsx')
-    df_is_all.to_excel(get_abs_path(__file__)+'/data/is_'+industry+'.xlsx')
-    df_bs_all.to_excel(get_abs_path(__file__)+'/data/bs_'+industry+'.xlsx')
+    df_cfs_all.to_excel(get_abs_path()+'/data/cfs_'+industry+'.xlsx')
+    df_is_all.to_excel(get_abs_path()+'/data/is_'+industry+'.xlsx')
+    df_bs_all.to_excel(get_abs_path()+'/data/bs_'+industry+'.xlsx')
